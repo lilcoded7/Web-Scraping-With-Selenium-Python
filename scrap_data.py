@@ -7,37 +7,28 @@ import time
 
 
 
-
-def upload_image(image_path):
-    path = 'C:\Program Files (x86)\chromedriver.exe'
-    driver = webdriver.Chrome(path)
-    driver.get('https://app.platerecognizer.com/view/467135406-c23560e1cb/?minimal&region=')
-
-    upload_image = driver.find_element(By.CLASS_NAME, 'btn btn-secondary width-full')
-    upload_image.send_keys(image_path)
-    upload_image.click()
-    print('============================')
-
-    time.sleep(5)
+class CarData:
+    def __init__(self):
+        self.path = 'C:\Program Files (x86)\chromedriver.exe'
+        self.driver = webdriver.Edge(self.path)
+        self.driver.get('https://app.platerecognizer.com/view/467135406-c23560e1cb/?minimal&region=')
 
 
-image_path = 'image/room-5.jpg'
-upload_image(image_path)
+    def scrape_licence_number_plate(self):
+        licence_plate_number = self.driver.find_element(By.CLASS_NAME,'item-data').text
+        print(licence_plate_number)
+        time.sleep(5)
 
-def scrape_licence_number_plate():
-    path = 'C:\Program Files (x86)\chromedriver.exe'
-    driver = webdriver.Chrome(path)
-    driver.get('https://app.platerecognizer.com/view/467135406-c23560e1cb/?minimal&region=')
+        return licence_plate_number
 
-    licence_plate_number = driver.find_element(By.CLASS_NAME,'item-data').text
-    print(licence_plate_number)
+    def upload_image(self):
+        self.driver.switch_to_frame(0)
+        image = self.driver.find_element(By.ID, 'file')
+        print(image)
+        print('================================')
+        
 
-    return licence_plate_number
+        
 
-    time.sleep(5)
-
-
-
-
-
-
+car = CarData()
+car.upload_image()
