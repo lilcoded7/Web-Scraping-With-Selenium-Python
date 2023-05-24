@@ -22,24 +22,20 @@ class CarData:
 
         return licence_plate_number
 
-    def upload_image(self):
-        driver = self.driver
-        
-        file_input = None
-        try:
-            file_input = driver.find_element(By.TAG_NAME, 'input')
-        except NoSuchElementException:
-            print("File input element not found.") 
-        
-        image_path = r'C:\Users\CODED\Desktop\cardata\image\room-5.jpg'  # Replace with the actual path to your image file
-
-        if file_input:
-            file_input.send_keys(image_path)
+    def upload_image(self, url, image_path):
+        with open(image_path, 'rb') as image_file:
+            files = {'file': image_file}
+            response = requests.post(url, files=files)
+            if response.status_code == 200:
+                print("Image uploaded successfully.")
+            else:
+                print("Error uploading image. Status code:", response.status_code)
 
        
         
 
-        
+# car = CarData()
+# website_url = "https://imgbb.com/upload"  
+# image_filepath = r"C:\Users\CODED\Desktop\cardata\image\room-5.jpg"  
 
-car = CarData()
-car.upload_image()
+# car.upload_image(website_url, image_filepath)
